@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import PCHeader from "@/components/shared/Header";
+import { ThemeProvider } from "@/providers/Theme-Proider";
+import MobileHeader from "@/components/shared/MobileHeader";
+import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +16,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="max-w-7xl mx-auto px-3">
+            <PCHeader />
+            <MobileHeader />
+            {children}
+          </div>
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
