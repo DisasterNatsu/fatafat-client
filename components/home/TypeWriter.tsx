@@ -8,8 +8,8 @@ const TypeWriter = () => {
   return (
     <div className="grid md:grid-cols-2 w-full px-0 my-5">
       {/* Left */}
-      <div className="flex flex-col justify-center p-5">
-        <h1 className="md:text-5xl text-3xl">
+      <div className="flex flex-col gap-5 justify-center p-5">
+        <h1 className="lg:text-5xl md:text-4xl text-3xl">
           Get all fatafat <TypeWriterEffect />
         </h1>
         <p className="mdLmt-2 md:my-0 my-10">

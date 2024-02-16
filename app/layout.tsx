@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import PCHeader from "@/components/shared/Header";
+import Header from "@/components/shared/Header";
 import { ThemeProvider } from "@/providers/Theme-Proider";
-import MobileHeader from "@/components/shared/MobileHeader";
 import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
@@ -24,9 +23,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="max-w-7xl mx-auto px-3">
-            <PCHeader />
-            <MobileHeader />
+          <div className="max-w-[1440px] mx-auto px-3">
+            <Header />
             {children}
           </div>
           <Footer />

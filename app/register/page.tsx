@@ -1,6 +1,6 @@
 "use client";
 
-import { z } from "zod";
+import { date, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,14 +23,22 @@ const formSchema = z.object({
   password: z
     .string({ required_error: "Password is required" })
     .min(6, { message: "Password must be over 6 characters" }),
+  confirmPassword: z
+    .string({ required_error: "Confirm Password is required" })
+    .min(6, { message: "Confirm Password must be over 6 characters" })
+    .refine((data: any) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    }),
 });
 
-const LogIn = () => {
+const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -43,7 +50,9 @@ const LogIn = () => {
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
-      <h1 className="text-2xl font-bold my-5">Welcome back</h1>
+      <h1 className="text-2xl font-bold my-5">
+        Welcome to one stop fatafat solutions
+      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -80,6 +89,23 @@ const LogIn = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      {...field}
+                      placeholder="Re:enter your password here"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit" className="mt-2">
               Submit
             </Button>
@@ -87,16 +113,16 @@ const LogIn = () => {
         </form>
       </Form>
       <p className="mt-4">
-        Don&apos;t have an account?{" "}
+        Already have an account?{" "}
         <Link
-          href={"/register"}
+          href={"/log-in"}
           className="font-semibold text-green-700 hover:text-green-500"
         >
-          Sign up
+          Sign in
         </Link>
       </p>
     </div>
   );
 };
 
-export default LogIn;
+export default Register;

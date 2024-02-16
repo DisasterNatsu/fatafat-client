@@ -3,7 +3,7 @@ import { ArrowLeftSquare, BookA, IndianRupee, Lock } from "lucide-react";
 export const NavLinks: NavDataType[] = [
   {
     heading: "Kolkata FF Result",
-    link: "#",
+    link: "/",
     icon: IndianRupee,
   },
   {

@@ -81,6 +81,9 @@
 
 @layer components {
   .nav-link {
-    @apply dark:hover:bg-zinc-800 hover:bg-orange-200 px-4 py-2 rounded-md;
+    @apply dark:hover:bg-slate-900 hover:bg-orange-200 px-4 py-2 rounded-md;
+  }
+  .nav-link-mobile {
+    @apply dark:hover:bg-green-800 hover:bg-orange-200 px-4 py-2 flex w-full gap-4;
   }
 }
