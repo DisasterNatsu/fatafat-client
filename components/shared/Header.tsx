@@ -30,7 +30,7 @@ const Header = () => {
             </Link>
             <Link href={"/"}>
               <p className="md:text-2xl font-semibold">
-                Kolkata <span className="text-green-400">Fatafat</span>
+                Kolkata<span className="text-green-400">FF</span>.space
               </p>
               <p className="text-xs -mt-1">💴 Result sabse pahele 💴</p>
             </Link>

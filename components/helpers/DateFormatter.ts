@@ -1,3 +1,9 @@
+import {
+  bengaliMonthNames,
+  bengaliNumerals,
+  monthAbbreviations,
+} from "@/constants/DateFormatterData";
+
 export const DateFormatter = ({ current, date }: DateFormatterProps) => {
   let currentDate = new Date();
 
@@ -5,49 +11,6 @@ export const DateFormatter = ({ current, date }: DateFormatterProps) => {
   let day: string | number = currentDate.getDate();
   let month: string | number = currentDate.getMonth(); // Note: January is 0!
   let year = currentDate.getFullYear();
-
-  const monthAbbreviations: string[] = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const bengaliNumerals: string[] = [
-    "০",
-    "১",
-    "২",
-    "৩",
-    "৪",
-    "৫",
-    "৬",
-    "৭",
-    "৮",
-    "৯",
-  ];
-
-  const bengaliMonthNames: string[] = [
-    "জানুয়ারী",
-    "ফেব্রুয়ারী",
-    "মার্চ",
-    "এপ্রিল",
-    "মে",
-    "জুন",
-    "জুলাই",
-    "অগাস্ট",
-    "সেপ্টেম্বর",
-    "অক্টোবর",
-    "নভেম্বর",
-    "ডিসেম্বর",
-  ];
 
   if (day < 10) {
     day = "0" + day;
