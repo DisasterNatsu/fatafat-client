@@ -16,7 +16,11 @@ const TypeWriter = () => {
           Get all suggestion and expert tips regarding Kolkata Fatafat.{" "}
           <br className="md:block hidden" />
           Join our{" "}
-          <a href="#" className="text-green-400 underline">
+          <a
+            href="https://t.me/kolkataFFspace"
+            target="_blank"
+            className="text-green-400 underline"
+          >
             Telegram
           </a>{" "}
           for more tips.

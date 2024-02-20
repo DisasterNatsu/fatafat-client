@@ -3,12 +3,13 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,6 +17,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { Axios } from "@/utils/AxiosConfig";
+import { toast } from "@/components/ui/use-toast";
+
+// form schema with zod
 
 const formSchema = z.object({
   email: z
@@ -27,6 +32,8 @@ const formSchema = z.object({
 });
 
 const LogIn = () => {
+  // initialize form
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,11 +42,41 @@ const LogIn = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  // initialize Router
+
+  const Router = useRouter();
+
+  // submit fuction
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // try catch block
+
+    try {
+      // sending the data
+
+      const response = await Axios.post("/user/log-in", values);
+
+      const data: UserLogInResponse = await response.data;
+
+      Cookies.set("ff-user-token", data.authToken, { expires: 3 });
+
+      toast({
+        title: "Success",
+        description: `Welcome back ${data.email}`,
+        variant: "default",
+      });
+
+      return setTimeout(() => Router.push("/"), 2000);
+    } catch (error: ErrorResponse | any) {
+      return toast({
+        title: "Something went wrong",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+
+      // show a toast
+    }
+  };
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">

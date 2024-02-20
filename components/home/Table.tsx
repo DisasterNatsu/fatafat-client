@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Table,
@@ -11,15 +12,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const len = 8;
+let arr: string[] = [
+  "date",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+];
 
-let arr: number[] = [];
+const Tables = ({ heading, refresh, data }: TablePropType) => {
+  const Router = useRouter();
 
-for (let i = 0; i < len; i++) {
-  arr.push(i + 1);
-}
+  const handleRefresh = () => {
+    return Router.refresh();
+  };
 
-const Tables = ({ heading, refresh }: TablePropType) => {
   return (
     <div className="w-full">
       {heading && (
@@ -30,29 +41,81 @@ const Tables = ({ heading, refresh }: TablePropType) => {
       <Table className="cursor-default">
         <TableHeader className="bg-green-400">
           <TableRow>
-            {arr?.map((item, index) => (
+            {arr?.map((_item, index) => (
               <TableHead
                 className="w-[200px] text-black font-semibold text-center h-8 dark:border-black border-x-2"
                 key={index}
               >
-                {item}
+                {index === 0 ? "Date" : index}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            {arr?.map((item, index) => (
-              <TableCell key={index} className="font-medium text-center">
-                {item}
-              </TableCell>
-            ))}
-          </TableRow>
+          {!data.displayDashes ? (
+            data.map(
+              (
+                item: { [x: string]: string },
+                rowIndex: React.Key | null | undefined
+              ) => (
+                <TableRow key={rowIndex}>
+                  {Object.keys(item).map((key, cellIndex) => {
+                    let NumberResult = "--";
+                    let PattiResult = "--";
+
+                    if (
+                      item[key] !== null &&
+                      key !== "date" &&
+                      key !== "createdAt"
+                    ) {
+                      const data = JSON.parse(item[key]);
+                      NumberResult =
+                        data.gameResultNumber && data.gameResultNumber;
+                      PattiResult =
+                        data.gameResultPatti && data.gameResultPatti;
+                    }
+
+                    // Only render the table cell if the key is not "date"
+                    return (
+                      key !== "createdAt" && (
+                        <TableCell
+                          key={cellIndex}
+                          className="font-medium text-center"
+                        >
+                          {key !== "date" ? (
+                            <>
+                              <p>{PattiResult}</p>
+                              <p>{NumberResult}</p>
+                            </>
+                          ) : (
+                            <p>{item[key]}</p>
+                          )}
+                        </TableCell>
+                      )
+                    );
+                  })}
+                </TableRow>
+              )
+            )
+          ) : (
+            <TableRow>
+              {arr?.map((_item, index) => {
+                return (
+                  <TableCell key={index} className="font-medium text-center">
+                    {data.displayDashes && "--"}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          )}
         </TableBody>
       </Table>
       {refresh && (
         <div className="flex justify-center mt-3">
-          <button className="py-2 px-3 text-black bg-green-400 rounded-md hover:bg-green-500 font-semibold">
+          <button
+            className="py-2 px-3 text-black bg-green-400 rounded-md hover:bg-green-500 font-semibold"
+            onClick={handleRefresh}
+          >
             Refresh
           </button>
         </div>

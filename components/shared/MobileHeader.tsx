@@ -1,15 +1,27 @@
 import React from "react";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
-import { LogIn, NotebookPen, X } from "lucide-react";
+import { LogIn, LogOut, NotebookPen, X } from "lucide-react";
+import Cookies from "js-cookie";
+
 import { NavLinks } from "@/constants/NavData";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 const MobileHeader = ({
   mobileMenuOpen,
   setMobileMenuOpen,
+  isAuth,
+  setIsAuth,
 }: MobileMenuProps) => {
+  const handleLogout = () => {
+    if (isAuth) {
+      Cookies.remove("ff-user-token");
+      return setIsAuth(false);
+    }
+  };
+
   return (
     <Dialog
       as="div"
@@ -48,15 +60,19 @@ const MobileHeader = ({
 
         {/* Show if user is logged in */}
 
-        {/* <div className="mt-5 px-2 flex justify-between items-center">
-          <p>Hi, Shilajit</p>
-          <button>
-            <Avatar>
-              <AvatarFallback>SD</AvatarFallback>
-            </Avatar>
-          </button>
-        </div>
-        <hr className="mt-4" /> */}
+        {isAuth && (
+          <>
+            <div className="mt-5 px-2 flex justify-between items-center">
+              <p>Hi, Welcome Back</p>
+              <button>
+                <Avatar>
+                  <AvatarFallback>FF</AvatarFallback>
+                </Avatar>
+              </button>
+            </div>
+            <hr className="mt-4" />
+          </>
+        )}
 
         <div className="mt-6 flow-root flex-grow">
           <div className="divide-y h-full">
@@ -77,14 +93,29 @@ const MobileHeader = ({
                 ))}
               </div>
               <hr className="mb-5" />
-              <div className="flex flex-col gap-5">
-                <Link href={"/log-in"} className="flex gap-4 nav-link-mobile">
-                  <LogIn /> Log In
-                </Link>
-                <Link href={"/register"} className="flex gap-4 nav-link-mobile">
-                  <NotebookPen /> Register
-                </Link>
-              </div>
+              {isAuth ? (
+                <div className="flex flex-col gap-5">
+                  <Button
+                    variant={"secondary"}
+                    className="flex gap-4 nav-link-mobile"
+                    onClick={handleLogout}
+                  >
+                    <LogOut /> Log Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-5">
+                  <Link href={"/log-in"} className="flex gap-4 nav-link-mobile">
+                    <LogIn /> Log In
+                  </Link>
+                  <Link
+                    href={"/register"}
+                    className="flex gap-4 nav-link-mobile"
+                  >
+                    <NotebookPen /> Register
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

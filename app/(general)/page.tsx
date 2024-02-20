@@ -4,25 +4,42 @@ import InformationTable from "@/components/home/InformationTable";
 import Tables from "@/components/home/Table";
 import TimeTable from "@/components/home/TimeTable";
 import TypeWriter from "@/components/home/TypeWriter";
+import { Axios } from "@/utils/AxiosConfig";
 
-export default function Home() {
+const getLatestData = async ({ date }: { date: string }) => {
+  const latest = await Axios.get(`/data/latest/${date}`);
+
+  const last10 = await Axios.get(`/data/last-ten-days/${date}`);
+
+  const latestData = await latest.data;
+  const lastTenDaysData = await last10.data;
+
+  return { latestData, lastTenDaysData };
+};
+
+const Home = async () => {
   const { formattedDate, formattedDateBengali } = DateFormatter({
     current: true,
+  });
+
+  const { latestData, lastTenDaysData } = await getLatestData({
+    date: formattedDate,
   });
 
   return (
     <main>
       <div>
         <h1 className="my-1 text-xl font-bold text-center text-black bg-green-400 cursor-default dark:border-black border-x-2 py-2">
-          {formattedDate} | {formattedDateBengali}
+          {formattedDate} | {formattedDateBengali}{" "}
+          <span className="animate-pulse">🔴</span>LIVE
         </h1>
-        <Tables refresh />
+        <Tables refresh data={latestData} />
         <TypeWriter />
 
         <h2 className="text-center text-2xl font-semibold my-5 pb-2 border-b dark:border-white border-black">
-          Resust of last 10 days
+          Result of last 10 days
         </h2>
-        <Tables heading />
+        <Tables heading data={lastTenDaysData} />
       </div>
 
       <hr className="my-5 pb-2 dark:border-white border-black" />
@@ -52,4 +69,6 @@ export default function Home() {
       {/* Links to new charts */}
     </main>
   );
-}
+};
+
+export default Home;

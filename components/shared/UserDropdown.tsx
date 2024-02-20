@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -9,7 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-const UserDropdown = () => {
+const UserDropdown = ({ isAuth, setIsAuth }: UserDropdownProps) => {
+  const handleLogout = () => {
+    if (isAuth) {
+      Cookies.remove("ff-user-token");
+      return setIsAuth(false);
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -24,7 +32,7 @@ const UserDropdown = () => {
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

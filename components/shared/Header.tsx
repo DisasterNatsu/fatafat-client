@@ -2,16 +2,60 @@
 
 import { NavLinks } from "@/constants/NavData";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
+import Cookies from "js-cookie";
+import { usePathname } from "next/navigation";
 
 import { ModeToggle } from "./ThemeModeToggle";
 import MobileHeader from "./MobileHeader";
 import UserDropdown from "./UserDropdown";
 import Image from "next/image";
+import { Axios } from "@/utils/AxiosConfig";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // get pathname
+
+  const path = usePathname();
+
+  const Authenticated = async () => {
+    // get auth token from cookies
+
+    const authToken = Cookies.get("ff-user-token");
+
+    if (!authToken) {
+      setLoading(false);
+      return setIsAuth(false);
+    } // if no auth token
+
+    try {
+      // define headers
+
+      const response = await Axios.get("/user/is-auth", {
+        headers: {
+          "ff-user-token": authToken,
+        },
+      });
+
+      const data: UserAuthResponse = await response.data;
+
+      if (response.status === 200) {
+        setLoading(false);
+        return setIsAuth(data.authenticated);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    Authenticated();
+  }, [path]);
 
   return (
     <header className="h-16">
@@ -26,7 +70,13 @@ const Header = () => {
           {/* Logo */}
           <div className="flex space-x-2 items-center">
             <Link href={"/"}>
-              <Image src="/logo.png" alt="logo" width={40} height={40} />{" "}
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={40}
+                height={40}
+                className="w-auto"
+              />{" "}
             </Link>
             <Link href={"/"}>
               <p className="md:text-2xl font-semibold">
@@ -51,16 +101,23 @@ const Header = () => {
         {/* Right */}
 
         <div className="items-center space-x-3 hidden lg:flex">
-          {/* Render if not logged in */}
-          <Link href="/log-in" className="nav-link">
-            Log In
-          </Link>
-          <Link href="/register" className="nav-link">
-            Register
-          </Link>
+          {loading ? (
+            <Skeleton className="w-[150px] h-[40px] rounded-md" />
+          ) : isAuth ? (
+            //  Render if logged in
+            <UserDropdown isAuth={isAuth} setIsAuth={setIsAuth} />
+          ) : (
+            <>
+              {/* Render if not logged in  */}
+              <Link href="/log-in" className="nav-link">
+                Log In
+              </Link>
+              <Link href="/register" className="nav-link">
+                Register
+              </Link>
+            </>
+          )}
 
-          {/* Render if logged in */}
-          {/* <UserDropdown /> */}
           <ModeToggle />
         </div>
 
@@ -72,6 +129,8 @@ const Header = () => {
         <MobileHeader
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
+          isAuth={isAuth}
+          setIsAuth={setIsAuth}
         />
       </nav>
     </header>
