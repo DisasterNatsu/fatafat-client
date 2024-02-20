@@ -33,8 +33,8 @@ const Home = async () => {
 
   return (
     <main>
-      <meta property="og:image" content="/logo.png" />
-      <meta property="og:image:alt" content="Kolkataff logo" />
+      <title>Kolkata FF 💚 FATAFAT Result Today LIVE Tips, Patti Chart</title>
+      <meta property="og:url" content="https://kolkataff.space" />
       <div>
         <h1 className="my-1 text-xl font-bold text-center text-black bg-green-400 cursor-default dark:border-black border-x-2 py-2">
           {formattedDate} | {formattedDateBengali}{" "}

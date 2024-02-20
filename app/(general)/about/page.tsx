@@ -4,6 +4,8 @@ import React from "react";
 const Aboout = () => {
   return (
     <div>
+      <title>Kolkata FF | About</title>
+      <meta property="og:url" content="https://kolkataff.space/about" />
       <h1 className="text-3xl my-3">About Us</h1>
       <div className="space-y-5">
         <p>

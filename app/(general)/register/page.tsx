@@ -50,6 +50,8 @@ const Register = () => {
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
+      <title>Kolkata FF | Register</title>
+      <meta property="og:url" content="https://kolkataff.space/register" />
       <h1 className="text-2xl font-bold my-5">
         Welcome to one stop fatafat solutions
       </h1>

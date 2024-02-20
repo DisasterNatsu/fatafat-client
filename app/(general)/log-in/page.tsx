@@ -80,6 +80,8 @@ const LogIn = () => {
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
+      <title>Kolkata FF | Log In</title>
+      <meta property="og:url" content="https://kolkataff.space/log-in" />
       <h1 className="text-2xl font-bold my-5">Welcome back</h1>
       <Form {...form}>
         <form

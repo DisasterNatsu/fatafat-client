@@ -4,6 +4,8 @@ import React from "react";
 const Privacy = () => {
   return (
     <div>
+      <title>Kolkata FF | Privacy</title>
+      <meta property="og:url" content="https://kolkataff.space/privacy" />
       <h1 className="text-3xl font-semibold my-3">Privacy</h1>
       <p className="text-sm">
         Our website address is:{" "}
