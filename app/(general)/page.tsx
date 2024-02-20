@@ -1,8 +1,10 @@
 import { DateFormatter } from "@/components/helpers/DateFormatter";
+import { DateFormatterQuery } from "@/components/helpers/DateFormatterQuery";
 import FAQ from "@/components/home/FAQ";
 import InformationTable from "@/components/home/InformationTable";
 import Tables from "@/components/home/Table";
 import TimeTable from "@/components/home/TimeTable";
+import TodayTable from "@/components/home/TodayTable";
 import TypeWriter from "@/components/home/TypeWriter";
 import { Axios } from "@/utils/AxiosConfig";
 
@@ -12,6 +14,7 @@ const getLatestData = async ({ date }: { date: string }) => {
   const last10 = await Axios.get(`/data/last-ten-days/${date}`);
 
   const latestData = await latest.data;
+
   const lastTenDaysData = await last10.data;
 
   return { latestData, lastTenDaysData };
@@ -22,8 +25,10 @@ const Home = async () => {
     current: true,
   });
 
+  const queryDate = DateFormatterQuery();
+
   const { latestData, lastTenDaysData } = await getLatestData({
-    date: formattedDate,
+    date: queryDate,
   });
 
   return (
@@ -33,7 +38,7 @@ const Home = async () => {
           {formattedDate} | {formattedDateBengali}{" "}
           <span className="animate-pulse">🔴</span>LIVE
         </h1>
-        <Tables refresh data={latestData} />
+        <TodayTable data={latestData} />
         <TypeWriter />
 
         <h2 className="text-center text-2xl font-semibold my-5 pb-2 border-b dark:border-white border-black">

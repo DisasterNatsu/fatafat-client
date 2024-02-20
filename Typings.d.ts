@@ -7,7 +7,7 @@ interface NavDataType {
 interface TablePropType {
   heading?: boolean;
   refresh?: boolean;
-  data: any;
+  data?: any;
 }
 
 interface MobileMenuProps {
@@ -50,4 +50,17 @@ interface UserAuthResponse {
 interface UserDropdownProps {
   isAuth: boolean;
   setIsAuth: (boolean) => void;
+}
+
+interface LatestUpdateDataType {
+  date: string;
+  one: string | null;
+  two: string | null;
+  three: string | null;
+  four: string | null;
+  five: string | null;
+  six: string | null;
+  seven: string | null;
+  eight: string | null;
+  createdAt: string;
 }

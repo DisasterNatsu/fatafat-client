@@ -47,7 +47,10 @@ const Footer = () => {
       </div>
       <h1 className="text-center h-10 mt-3">
         © 2023-2024 kolkataff.space | Made with ❤️ by{" "}
-        <Link href={"#"} className="hover:text-green-400">
+        <Link
+          href={"mailto:shilajitdutta44@gmail.com"}
+          className="hover:text-green-400"
+        >
           Shilajit
         </Link>
       </h1>
